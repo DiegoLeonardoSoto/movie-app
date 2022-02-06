@@ -14,17 +14,25 @@ function Header() {
 
     return (
         <HeaderStyled>
-            <h1>Movie TRailer App</h1>
-
-            <form onSubmit={searchMovies}>
-                <input type="text" onChange={(e) => setSearchKey(e.target.value)}/>
-                <button type='submit'>search!</button>
-            </form>
+            <div className="header-con max-center">
+                <h1>Movie TRailer App</h1>
+                            
+                <form onSubmit={searchMovies}>
+                    <input type="text" onChange={(e) => setSearchKey(e.target.value)}/>
+                    <button type='submit'>search!</button>
+                </form>
+            </div>
         </HeaderStyled>
     );
 }
 
 const HeaderStyled = styledComponents.header`
+
+.header-con{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 `;
 

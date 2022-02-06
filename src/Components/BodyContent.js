@@ -3,10 +3,11 @@ import styledComponents from 'styled-components';
 import MovieCard from "./MovieCard";
 import { useEffect, useState,useContext } from "react";
 import { DataContext } from '../context/DataContext';
+import Hero from './Hero';
 
 function BodyContent() {
 
-    const {movies,fetchMovies} = useContext(DataContext);
+    const {movies,fetchMovies,setSelectedMovie} = useContext(DataContext);
 
     useEffect(() => {
         fetchMovies()
@@ -17,13 +18,15 @@ function BodyContent() {
         <MovieCard
             key={movie.id}
             movie={movie}
+            selectMovie={setSelectedMovie}
         />
         ))
     )
 
     return (
         <BodyContentStyled>
-            <div className="container">
+            <Hero/>
+            <div className="container max-center">
                 {renderMovies()}
             </div>
         </BodyContentStyled>
@@ -31,11 +34,15 @@ function BodyContent() {
 }
 
 const BodyContentStyled = styledComponents.div`
+
 .container{
+    padding: 1.5rem;
     text-align: center;
     display: grid;
     gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding: 15px;
+    background-color: #0F1014;
 }
 `;
 
