@@ -8,6 +8,7 @@ export const Dataprovider = ({children}) => {
 
     const [searchKey, setSearchKey] = useState("");
     const [selectedMovie, setSelectedMovie] = useState({});
+    const [playTrailer, setPlayTrailer] = useState(false);
 
     // se consume la data de la api
     const IMAGE_PATH ="https://image.tmdb.org/t/p/w1280";
@@ -23,8 +24,26 @@ export const Dataprovider = ({children}) => {
         }
         })
 
-        setSelectedMovie(results[0])
+        
         setMovies(results)
+        await selectMovie(results[0])
+    }
+
+    const fetchMovie = async(id) => {
+        const {data} = await axios.get(`${API_URL}/movie/${id}`,{
+            params:{
+                api_key: process.env.REACT_APP_MOVIE_API_KEY,
+                append_to_response: 'videos'
+            }
+            })
+
+            return data;
+    }
+
+    const selectMovie = async (movie) =>{
+        setPlayTrailer(false);
+        const data = await fetchMovie(movie.id);
+        setSelectedMovie(data);
     }
 // ---------------
 
@@ -36,8 +55,10 @@ export const Dataprovider = ({children}) => {
             movies,
             fetchMovies,
             selectedMovie,
-            setSelectedMovie,
-            IMAGE_PATH
+            selectMovie,
+            IMAGE_PATH,
+            playTrailer,
+            setPlayTrailer
         }}>
             {children}
         </DataContext.Provider>

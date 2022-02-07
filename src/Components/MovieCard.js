@@ -11,6 +11,7 @@ function MovieCard({movie, selectMovie}) {
         : 
         <div className="movie-placeholder">No image found</div>
         }
+        <h4>{movie.id}</h4>
         <h4>{movie.title}</h4>
         </div>
     </MovieCardStyled>

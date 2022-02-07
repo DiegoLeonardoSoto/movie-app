@@ -1,13 +1,13 @@
 import React from 'react';
 import styledComponents from 'styled-components';
 import MovieCard from "./MovieCard";
-import { useEffect, useState,useContext } from "react";
+import { useEffect,useContext } from "react";
 import { DataContext } from '../context/DataContext';
 import Hero from './Hero';
 
 function BodyContent() {
 
-    const {movies,fetchMovies,setSelectedMovie} = useContext(DataContext);
+    const {movies,fetchMovies,selectMovie} = useContext(DataContext);
 
     useEffect(() => {
         fetchMovies()
@@ -18,7 +18,7 @@ function BodyContent() {
         <MovieCard
             key={movie.id}
             movie={movie}
-            selectMovie={setSelectedMovie}
+            selectMovie={selectMovie}
         />
         ))
     )

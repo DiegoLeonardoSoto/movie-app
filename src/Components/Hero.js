@@ -1,17 +1,46 @@
 import React, {useContext} from 'react';
 import styledComponents from 'styled-components';
 import { DataContext } from '../context/DataContext';
+import YouTube from 'react-youtube';
+
+
+
 
 function Hero() {
 
-    const {selectedMovie,IMAGE_PATH} = useContext(DataContext);
+    const {selectedMovie,IMAGE_PATH, setPlayTrailer, playTrailer} = useContext(DataContext);
+
+    const renderTrailer = () => {
+        const trailer = selectedMovie.videos.results.find(vid => vid.name === "Official Trailer")
+        const key = trailer ? trailer.key : selectedMovie.videos.results[0].key
+
+        return(
+            <YouTube 
+                videoId={key}
+                containerClassName={"youtube-container"}
+                opts={
+                    {
+                        width: "100%",
+                        height: "100%",
+                        playerVars: {
+                            autoplay: 1,
+                            controls: 0
+                        }
+                    }
+                }
+            />
+        )
+    }
 
     return (
         <HeroStyle >
             <div className="hero" style={{backgroundImage: `url(${IMAGE_PATH}${selectedMovie.backdrop_path})`} }>
                 <div className="hero-con max-center" >
-                    <button className='hero-button'>Play Trailer</button>
+                    { playTrailer ? <button className='hero-button hero-button-close' onClick={() => setPlayTrailer(false)}>Close</button> : null }
 
+                    {selectedMovie.videos && playTrailer ? renderTrailer() : null }
+
+                    <button className='hero-button' onClick={() => setPlayTrailer(true)}>Play Trailer</button>
                         <h1 className='hero-title'>{selectedMovie.title}</h1> <br/>
                     
                         {selectedMovie.overview ? <p className='hero-overview'>{selectedMovie.overview}</p> : null}
@@ -72,6 +101,21 @@ const HeroStyle = styledComponents.div`
     margin-bottom: 2rem;
 }
 
+.hero-button-close{
+    position: absolute;
+    z-index: 10;
+    bottom: 30px;
+    left: 30px;
+}
+
+.youtube-container{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom:0;
+    z-index: 1;
+}
 
 `;
 
